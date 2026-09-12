@@ -1,4 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elevate_flower_app/core/fcm/fcm_config.dart';
+import 'package:elevate_flower_app/firebase_options.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,33 +13,47 @@ import 'core/config/di/injectable_config.dart';
 import 'core/helper/bloc/bloc_observer.dart';
 import 'core/languages/lang.dart';
 import 'core/routes/url_strategy.dart';
-import 'core/theme/app_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 const bool runLocal = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: AppColors.black0C,
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.light,
-    ),
-  );
+
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    EasyLocalization.ensureInitialized(),
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
+    ScreenUtil.ensureScreenSize(),
+    configureDependencies(),
+  ]);
+
+  FCMService().initialize();
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
+  //Disable crashlytics in debug => await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!kDebugMode);
+
+  // Set custom Bloc observer for debugging
+  Bloc.observer = MyBlocObserver();
+
+  //!==================FOR WEB=====================
+  GoRouter.optionURLReflectsImperativeAPIs = true;
+  setPathUrlStrategy();
+
   runApp(
     EasyLocalization(
-      supportedLocales: [arabicLocale, englishLocale],
+      supportedLocales: const [arabicLocale, englishLocale],
       fallbackLocale: englishLocale,
-      startLocale: englishLocale,
       path: assetsLocalization,
+      saveLocale: true,
       child: const FlowerApp(),
     ),
   );
-  await configureDependencies(); // Set custom Bloc observer for debugging
-  Bloc.observer = MyBlocObserver();
-  await ScreenUtil.ensureScreenSize();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  //==================FOR WEB=====================
-  GoRouter.optionURLReflectsImperativeAPIs = true;
-  setPathUrlStrategy();
-  await EasyLocalization.ensureInitialized();
 }

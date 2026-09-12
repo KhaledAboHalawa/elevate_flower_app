@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 import '../languages/locale_keys.g.dart';
 
 sealed class Failures implements Exception {
@@ -60,7 +61,7 @@ class ServerFailure extends Failures {
         statusCode == 404) {
       return ServerFailure(
         errorMessage:
-            response['message'] ?? LocaleKeys.error_api_failure_unknown.tr(),
+            response['error'] ?? LocaleKeys.error_api_failure_unknown.tr(),
       );
     } else if (statusCode == 500) {
       return ServerFailure(

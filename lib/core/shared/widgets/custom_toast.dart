@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toastification/toastification.dart';
+
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 
@@ -34,9 +35,15 @@ class CustomToast {
       showProgressBar: true,
       showIcon: false,
       context: context,
-      title: Text(header ?? "", style: 16.semiBold),
+      title: Text(
+        header ?? "",
+        style: 16.semiBold.copyWith(color: AppColors.whiteF9),
+      ),
       description: description != null
-          ? Text(description!, style: 16.regular)
+          ? Text(
+              description!,
+              style: 16.regular.copyWith(color: AppColors.whiteF9),
+            )
           : null,
       autoCloseDuration: const Duration(seconds: 5),
     );
@@ -62,7 +69,7 @@ class CustomToast {
       applyBlurEffect: true,
       borderRadius: BorderRadius.circular(12),
       borderSide: BorderSide.none,
-      closeButton: ToastCloseButton(showType: CloseButtonShowType.none),
+      closeButton: const ToastCloseButton(showType: CloseButtonShowType.none),
       title: icon != null
           ? Center(
               child: Container(
@@ -77,7 +84,7 @@ class CustomToast {
                     icon,
                     width: 24,
                     height: 24,
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: const ColorFilter.mode(
                       AppColors.whiteF9,
                       BlendMode.srcIn,
                     ),
@@ -90,8 +97,16 @@ class CustomToast {
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
         children: [
-          Text(title ?? "", textAlign: TextAlign.center, style: 20.bold),
-          Text(message ?? "", textAlign: TextAlign.center, style: 16.regular),
+          Text(
+            title ?? "",
+            textAlign: TextAlign.center,
+            style: 20.bold.copyWith(color: AppColors.whiteF9),
+          ),
+          Text(
+            message ?? "",
+            textAlign: TextAlign.center,
+            style: 16.regular.copyWith(color: AppColors.whiteF9),
+          ),
         ],
       ),
       autoCloseDuration: const Duration(seconds: 5),

@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'dart:async';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
@@ -72,7 +73,7 @@ class ResendTimerState extends State<ResendTimer> {
                 : AppColors.grayA6,
           ),
         ),
-        Gap(4),
+        const Gap(4),
         InkWell(
           radius: 10,
           onTap: _timer == null || !_timer!.isActive

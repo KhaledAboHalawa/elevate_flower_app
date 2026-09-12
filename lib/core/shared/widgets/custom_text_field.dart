@@ -49,6 +49,8 @@ class CustomTextField extends StatefulWidget {
     this.floatingLabelBehavior,
     this.labelText,
     this.autovalidateMode,
+    this.errorText,
+    this.errorMaxLines,
   });
   final AutovalidateMode? autovalidateMode;
   final Widget? labelWidget;
@@ -90,6 +92,8 @@ class CustomTextField extends StatefulWidget {
   final TextDirection? textDirection;
   final bool isErrorEnabled;
   final void Function(PointerDownEvent)? onTapOutside;
+  final String? errorText;
+  final int? errorMaxLines;
 
   @override
   State<CustomTextField> createState() => _CustomTextFormFieldState();
@@ -157,12 +161,9 @@ class _CustomTextFormFieldState extends State<CustomTextField> {
       spacing: 6,
       children: [
         if (widget.title != null && widget.title!.isNotEmpty)
-          Text(
-            widget.title ?? "",
-            style: 14.light,
-          ),
+          Text(widget.title ?? "", style: 14.light),
         TextFormField(
-          enabled: !widget.isReadOnly,
+          enabled: true,
           textDirection: widget.textDirection,
           obscuringCharacter: "*",
           textCapitalization:
@@ -194,12 +195,13 @@ class _CustomTextFormFieldState extends State<CustomTextField> {
           style: widget.textStyle ?? 16.regular,
           onFieldSubmitted: widget.onFieldSubmitted,
           errorBuilder: widget.isErrorEnabled
-              ? (context, errorText) => const SizedBox()
+              ? (context, errorText) => Text(
+                  errorText,
+                  style: 12.regular.copyWith(color: AppColors.redCC),
+                )
               : null,
           decoration: InputDecoration(
-            fillColor: !widget.isReadOnly
-                ? widget.fillColor
-                : AppColors.black0C,
+            fillColor: !widget.isReadOnly ? widget.fillColor : AppColors.grayCF,
             filled: widget.enableFill,
             isDense: widget.isDense,
             hintText: _animatedHintText.isEmpty
@@ -227,6 +229,8 @@ class _CustomTextFormFieldState extends State<CustomTextField> {
                     fit: BoxFit.scaleDown,
                   )
                 : widget.prefixWidget,
+            errorText: widget.errorText,
+            errorMaxLines: widget.errorMaxLines ?? 1,
             label:
                 widget.labelWidget ??
                 Text(widget.labelText ?? "", style: 14.regular),

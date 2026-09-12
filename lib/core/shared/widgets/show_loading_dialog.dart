@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
 import '../../languages/locale_keys.g.dart';
 import '../../theme/app_animations.dart';
 import '../../theme/app_colors.dart';
@@ -14,7 +15,7 @@ void showDialogLoading(
     context: context,
     barrierDismissible: barrierDismissible,
     transitionDuration: const Duration(milliseconds: 300),
-    pageBuilder: (context, anim1, anim2) => ShowDialogLoading(),
+    pageBuilder: (context, anim1, anim2) => const ShowDialogLoading(),
     transitionBuilder: (context, anim1, anim2, child) {
       return Transform.scale(
         scale: anim1.value,
@@ -35,7 +36,10 @@ class ShowDialogLoading extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Lottie.asset(AppAnimations.animationsLoadingAnimation),
+            Lottie.asset(
+              AppAnimations.animationsLoadingAnimation,
+              fit: BoxFit.scaleDown,
+            ),
             Text(LocaleKeys.global_loading.tr(), style: 16.medium),
           ],
         ),

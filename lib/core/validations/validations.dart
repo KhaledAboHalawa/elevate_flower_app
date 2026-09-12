@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
+
 import '../helper/phone_helper/phone_length_helper.dart';
 
 class Validations {
@@ -25,7 +27,7 @@ class Validations {
       return 'validations.set_password_4_condition_error'.tr();
     }
 
-    if (value.length < 6 || value.length > 30) {
+    if (value.length < 8 || value.length > 30) {
       return 'validations.set_password_5_condition_error'.tr();
     }
 
@@ -40,7 +42,15 @@ class Validations {
     }
     return null;
   }
-static String? validateEmail(String? value) {
+
+  static String? validateCurrentPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'validations.password_required'.tr();
+    }
+    return null;
+  }
+
+  static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return "validations.email_required".tr();
     }
@@ -52,6 +62,7 @@ static String? validateEmail(String? value) {
 
     return null;
   }
+
   static String? validatePhoneNumber(
     String? value,
     int phoneLength,
@@ -72,6 +83,22 @@ static String? validateEmail(String? value) {
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return "validations.name_required".tr();
+    } else {
+      return null;
+    }
+  }
+
+  static String? validateFirstName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "validations.first_name_required".tr();
+    } else {
+      return null;
+    }
+  }
+
+  static String? validateLastName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "validations.last_name_required".tr();
     } else {
       return null;
     }

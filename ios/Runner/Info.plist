@@ -2,8 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need to save photos to your library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need camera access to take your profile photo</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to show you on the map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs your location to show you on the map</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs your location to show you on the map</string>
 	<key>CFBundleDisplayName</key>
 	<string>Flowers</string>
 	<key>CFBundleExecutable</key>
